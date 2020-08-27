@@ -89,28 +89,28 @@ app.post("/api/add", async (req, res) => {
     newBirthday.save().then(() => res.json({ result: "Success" }));
 });
 
-// Send email everyday at 00:05
-const { sendEmail } = require("./emailSender");
-const cron = require("node-cron");
-const tzOffset = require("tz-offset");
-cron.schedule(
-    "0 5 0 * * *",
-    async () => {
-        const currentTime = tzOffset.timeAt(new Date(), "America/Los_Angeles");
-        const currentMonth = currentTime.getMonth() + 1;
-        const currentDay = currentTime.getDate();
+// // Send email everyday at 00:05
+// const { sendEmail } = require("./emailSender");
+// const cron = require("node-cron");
+// const tzOffset = require("tz-offset");
+// cron.schedule(
+//     "0 5 0 * * *",
+//     async () => {
+//         const currentTime = tzOffset.timeAt(new Date(), "America/Los_Angeles");
+//         const currentMonth = currentTime.getMonth() + 1;
+//         const currentDay = currentTime.getDate();
 
-        const todayBirthday = await Birthday.find({
-            $and: [{ month: currentMonth }, { day: currentDay }],
-        }).exec();
+//         const todayBirthday = await Birthday.find({
+//             $and: [{ month: currentMonth }, { day: currentDay }],
+//         }).exec();
 
-        todayBirthday.forEach((birthday) => {
-            let text = `Today is ${birthday.name}'s birthday!`;
-            sendEmail(birthday.email, text);
-        });
-    },
-    {
-        scheduled: true,
-        timezone: "America/Los_Angeles",
-    }
-);
+//         todayBirthday.forEach((birthday) => {
+//             let text = `Today is ${birthday.name}'s birthday!`;
+//             sendEmail(birthday.email, text);
+//         });
+//     },
+//     {
+//         scheduled: true,
+//         timezone: "America/Los_Angeles",
+//     }
+// );
