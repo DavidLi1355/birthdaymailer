@@ -1,0 +1,77 @@
+<div class='container'>
+    <div class='row'>
+        <div class="col text-center home-col">
+            <h2>Birthday Mailer</h2>
+        </div>
+    </div>
+
+    <form method="POST" action="">
+        <div class='row'>
+            <div class='col-md-6 col-xl-3 text-center home-col'>
+                <label class="home-label">Email</label>
+                <input class="home-input" type="text" name="email" id="email">
+                <span class="home-span" id="emailError"></span>
+            </div>
+            <div class='col-md-6 col-xl-3 text-center home-col'>
+                <label class="home-label">Name</label>
+                <input class="home-input" type="text" name="name" id="name">
+                <span class="home-span" id="nameError"></span>
+            </div>
+            <div class='col-md-6 col-xl-3 text-center home-col'>
+                <label class="home-label">Month</label>
+                <input class="home-input" type="text" name="month" id="month">
+                <span class="home-span" id="monthError"></span>
+            </div>
+            <div class='col-md-6 col-xl-3 text-center home-col'>
+                <label class="home-label">Day</label>
+                <input class="home-input" type="text" name="day" id="day">
+                <span class="home-span" id="dayError"></span>
+            </div>
+
+        </div>
+
+        <div class='row'>
+            <div class="col text-center home-submit">
+                <div style="display: block">
+                    <button type="submit" class="btn btn-primary btn-lg" id="submit">Remind Me!</button>
+                </div>
+                <span id="result"></span>
+            </div>
+        </div>
+    </form>
+</div>
+
+
+
+<script>
+    $(document).ready(() => {
+        $('#submit').click((e) => {
+            e.preventDefault();
+            var obj = new Object();
+            obj.email = $('#email').val();
+            obj.name = $('#name').val();
+            obj.month = $('#month').val();
+            obj.day = $('#day').val();
+            $.post('/api/add', obj, (data) => {
+                $(":input").val("");
+                $('#emailError').text("");
+                $('#nameError').text("");
+                $('#monthError').text("");
+                $('#dayError').text("");
+                $('#result').text("Success");
+            })
+                .fail((err) => {
+                    $('#result').text("");
+                    const errBody = err.responseJSON;
+                    $('#emailError').text(errorProcess(errBody.email));
+                    $('#nameError').text(errorProcess(errBody.name));
+                    $('#monthError').text(errorProcess(errBody.month));
+                    $('#dayError').text(errorProcess(errBody.day));
+                });
+        });
+    });
+
+    const errorProcess = (errIn) => {
+        return typeof errIn === "undefined" ? "" : errIn;
+    } 
+</script>

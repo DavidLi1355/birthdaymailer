@@ -1,0 +1,23 @@
+.home-label {
+    display: block;
+    margin: 0;
+}
+
+.home-input {
+    width: 100%;
+    text-align: center;
+}
+
+.home-col {
+    margin: 0.5rem 0rem;
+}
+
+.home-submit {
+    margin: 1rem 0rem;
+}
+
+.home-span {
+    display: inline-block;
+    color: red;
+    font-size: 12px;
+}
