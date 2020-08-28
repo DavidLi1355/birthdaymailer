@@ -7,25 +7,21 @@ const senderPassword = process.env.senderPassword;
 const subject = "Birthday Reminder";
 module.exports = {
     sendEmail: async (to, text) => {
-        try {
-            const transporter = nodemailer.createTransport({
-                service: "Gmail",
-                auth: {
-                    user: senderEmail,
-                    pass: senderPassword,
-                },
-            });
+        const transporter = nodemailer.createTransport({
+            service: "Gmail",
+            auth: {
+                user: senderEmail,
+                pass: senderPassword,
+            },
+        });
 
-            const message = {
-                from: `Birthday Mailer <${senderEmail}>`,
-                to,
-                subject,
-                text,
-            };
+        const message = {
+            from: `Birthday Mailer <${senderEmail}>`,
+            to,
+            subject,
+            text,
+        };
 
-            transporter.sendMail(message, () => {});
-        } catch (e) {
-            // handle errors here
-        }
+        await transporter.sendMail(message);
     },
 };
